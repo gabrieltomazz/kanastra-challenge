@@ -9,9 +9,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
-class BankslipController extends Controller
+class FileController extends Controller
 {
+    public function index()
+    {
+        $files = File::orderBy('created_at', 'desc')->get()->map(function ($file) {
+            $file->created = Carbon::parse($file->created_at)->format('d-m-Y H:i:s');
+            $file->updated = Carbon::parse($file->updated_at)->format('d-m-Y H:i:s');
+            $file->processing_time = round(Carbon::parse($file->created_at)->diffInMinutes(Carbon::parse($file->updated_at)), 2);
+
+            return $file;
+        });
+
+
+        return response()->json($files);
+    }
+    
     public function uploadCsv(Request $request)
     {
         $validator = Validator::make($request->all(), [

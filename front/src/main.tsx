@@ -7,8 +7,7 @@ import * as Components from './components'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Components.Main />
-      {/* Your Job here */}
+      <Components.Dashboard />
     </BrowserRouter>
   </React.StrictMode>,
 )
