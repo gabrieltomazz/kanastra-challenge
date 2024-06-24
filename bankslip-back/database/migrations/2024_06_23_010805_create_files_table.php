@@ -11,23 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bankslip', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('government_id');
-            $table->string('email');
-            $table->decimal('debt_amount', 10, 2);
-            $table->date('debt_due_date');
-            $table->string('debt_id');
+            $table->enum('status', ['PROCESSING', 'PROCESSED'])->default('PROCESSING');
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('bankslip');
+        Schema::dropIfExists('files');
     }
 };
