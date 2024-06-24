@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bankslip;
+use App\Models\File;
+use App\Jobs\ProcessCsv;
+use Exception;
 use Illuminate\Http\Request;
-use League\Csv\Reader;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class BankslipController extends Controller
 {
@@ -19,21 +22,20 @@ class BankslipController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $file = $request->file('file');
-        $csv = Reader::createFromPath($file->getRealPath(), 'r');
-        $csv->setHeaderOffset(0);
+        try {
+            $file = $request->file('file');
+            $filePath = $file->store('csv_uploads');
+    
+            $savedFile = File::create(['name' => $file->getClientOriginalName()]);
+            ProcessCsv::dispatch($savedFile->id, Storage::path($filePath));
 
-        foreach ($csv as $record) {
-            Bankslip::create([
-                'name' => $record['name'],
-                'government_id' => $record['governmentId'],
-                'email' => $record['email'],
-                'debt_amount' => $record['debtAmount'],
-                'debt_due_date' => $record['debtDueDate'],
-                'debt_id' => $record['debtId'],
-            ]);
+            return response()->json(['message' => 'CSV processed successfully'], 200);
+
+        }catch(Exception $e)
+        {
+            Log::error('Error processing CSV: ' . $e->getMessage());
+            return response()->json(['error' => 'File upload failed. Please try again.'], 500);
         }
 
-        return response()->json(['message' => 'CSV processed successfully'], 200);
     }
 }
