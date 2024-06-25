@@ -40,7 +40,7 @@
         <p>Dear {{ $bankslip->name }},</p>
         <p>We are writing to inform you that your bank slip is attached to this email. Please find the attached document for your records.</p>
         <div class="bank-slip">
-            <a href="https://localhost/bank-slip.pdf" target="_blank" style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Download Here</a>
+            <a href="{{ url('files/' . $bankslip->debt_id . '/open') }}" target="_blank" style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Download Here</a>
         </div>
         <p>If you have any questions or concerns, please don't hesitate to contact us.</p>
         <p>Thank you for choosing our services.</p>

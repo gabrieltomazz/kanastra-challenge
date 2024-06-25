@@ -53,4 +53,16 @@ class FileController extends Controller
         }
 
     }
+
+    public function openFile($debtId)
+    {
+        try {
+            $filePath = storage_path('app/public/bankslips/' . $debtId . '.pdf');
+            
+            return response()->file($filePath);
+        } catch (Exception $e) {
+            Log::error('Error opening file: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to open file. Please try again.'], 500);
+        }
+    }
 }
