@@ -15,7 +15,7 @@ class FileController extends Controller
 {
     public function index()
     {
-        $files = File::orderBy('created_at', 'desc')->get()->map(function ($file) {
+        $files = File::all()->map(function ($file) {
             $file->created = Carbon::parse($file->created_at)->format('d-m-Y H:i:s');
             $file->updated = Carbon::parse($file->updated_at)->format('d-m-Y H:i:s');
             $file->processing_time = round(Carbon::parse($file->created_at)->diffInMinutes(Carbon::parse($file->updated_at)), 2);
