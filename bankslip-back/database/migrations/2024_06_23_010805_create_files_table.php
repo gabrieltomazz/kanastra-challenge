@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('status', ['PROCESSING', 'PROCESSED'])->default('PROCESSING');
+            $table->enum('status', ['PROCESSING', 'PROCESSED', 'ERROR'])->default('PROCESSING');
             $table->timestamps();
         });
     }
