@@ -66,15 +66,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Getting started
-### run app
-./vendor/bin/sail up
 
-### create migration 
-./vendor/bin/sail artisan make:migration create_tablename_table
+### build and run app
+./vendor/bin/sail up
 
 ### run migration
 ./vendor/bin/sail artisan migrate 
 
-## run job
+## run jobs
 ./vendor/bin/sail artisan queue:work 
+
+## create folder to store pdf 
+cd public 
+mkdir bankslip
+chmod 777 public/bankslip
 
